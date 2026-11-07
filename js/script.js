@@ -200,6 +200,7 @@ function renderExpenses() {
 
 function updateUI() {
     renderExpenses();
+    renderSummary();
 }
 
 function deleteExpense(id) {
@@ -217,4 +218,33 @@ expenseList.addEventListener('click', (e) => {
     if (!deleteBtn) return;
     deleteExpense(Number(deleteBtn.closest('.expense-item').dataset.id));
 });
+
+const totalAmountEl = document.getElementById('totalAmount');
+const totalCountEl = document.getElementById('totalCount');
+const topCategoryEl = document.getElementById('topCategory');
+const monthTotalEl = document.getElementById('monthTotal');
+
+function renderSummary() {
+    const totalAmount = expenses.reduce((sum, item) => sum + item.amount, 0);
+    totalAmountEl.textContent = formatAmount(totalAmount);
+    const totalCount = expenses.length;
+    totalCountEl.textContent = totalCount;
+
+    const totals = {};
+    expenses.forEach(item => {
+        totals[item.category] = (totals[item.category] || 0) + item.amount;
+    });
+
+    const top = Object.entries(totals).sort((a, b) => b[1] - a[1])[0];
+    topCategoryEl.textContent = top ? `${top[0]} (${formatAmount(top[1])})` : '—';
+
+    const now = new Date();
+    const monthPrefix = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`;
+    const monthTotal = expenses
+        .filter(item => item.date.startsWith(monthPrefix))
+        .reduce((sum, item) => sum + item.amount, 0);
+    monthTotalEl.textContent = formatAmount(monthTotal);
+}
+
+// Additional summary calculations can be added here
 document.getElementById('year').textContent = new Date().getFullYear();
