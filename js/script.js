@@ -138,17 +138,25 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
-    expenses.push({
-        id: Date.now(),
+    const data = {
         title: titleInput.value.trim(),
         amount: Math.round(parseFloat(amountInput.value) * 100) / 100,
         category: categoryInput.value,
         date: dateInput.value
-    });
+    };
+
+    if (editingId === null) {
+        expenses.push({ id: Date.now(), ...data });
+        showToast('Expense added successfully!');
+    } else {
+        expenses = expenses.map(item => item.id === editingId ? { ...item, ...data } : item);
+        exitEditMode();
+        showToast('Expense updated successfully!');
+    }
 
     saveExpenses();
+    updateUI();
     resetForm();
-    showToast('Expense added successfully!');
 });
 
 dateInput.value = todayString();
@@ -185,6 +193,7 @@ function renderExpenses() {
         <strong class="expense-amount"></strong>
         <div class="expense-actions">
           <button class="icon-btn delete-btn" aria-label="Delete expense">🗑️</button>
+          <button class="icon-btn edit-btn" aria-label="Edit expense">✏️</button>
         </div>
       </div>`;
 
@@ -205,11 +214,16 @@ function updateUI() {
 
 function deleteExpense(id) {
     if (!confirm('Are you sure you want to delete this expense?')) return;
+
+    if (editingId === id) {
+        exitEditMode();
+        resetForm();
+    }
+
     expenses = expenses.filter(item => item.id !== id);
     saveExpenses();
     updateUI();
     showToast('Expense deleted.');
-    resetForm();
 }
 
 
@@ -245,6 +259,51 @@ function renderSummary() {
         .reduce((sum, item) => sum + item.amount, 0);
     monthTotalEl.textContent = formatAmount(monthTotal);
 }
+
+// ===== Edit expense =====
+const formTitle = document.getElementById('formTitle');
+const submitBtn = document.getElementById('submitBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+let editingId = null;
+
+function startEdit(id) {
+    const expense = expenses.find(item => item.id === id);
+    if (!expense) return;
+
+    editingId = id;
+    titleInput.value = expense.title;
+    amountInput.value = expense.amount;
+    categoryInput.value = expense.category;
+    dateInput.value = expense.date;
+    clearErrors();
+
+    formTitle.textContent = 'Edit Expense';
+    submitBtn.textContent = 'Save Changes';
+    cancelBtn.hidden = false;
+
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    titleInput.focus();
+}
+
+function exitEditMode() {
+    editingId = null;
+    formTitle.textContent = 'Add Expense';
+    submitBtn.textContent = 'Add Expense';
+    cancelBtn.hidden = true;
+}
+
+expenseList.addEventListener('click', (e) => {
+    const editBtn = e.target.closest('.edit-btn');
+    if (!editBtn) return;
+    startEdit(Number(editBtn.closest('.expense-item').dataset.id));
+});
+
+cancelBtn.addEventListener('click', () => {
+    exitEditMode();
+    resetForm();
+});
+
+
 
 // Additional summary calculations can be added here
 document.getElementById('year').textContent = new Date().getFullYear();
