@@ -153,4 +153,68 @@ form.addEventListener('submit', (e) => {
 
 dateInput.value = todayString();
 dateInput.max = todayString();
+updateUI();
+// ===== Expense list =====
+const expenseList = document.getElementById('expenseList');
+const emptyState = document.getElementById('emptyState');
+
+function getVisibleExpenses() {
+
+    return [...expenses].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+}
+
+function renderExpenses() {
+    const visible = getVisibleExpenses();
+    expenseList.innerHTML = '';
+
+    emptyState.hidden = visible.length > 0;
+    emptyState.textContent = expenses.length === 0
+        ? 'No expenses yet. Add your first one using the form.'
+        : 'No expenses match your search or filter.';
+
+    visible.forEach(expense => {
+        const li = document.createElement('li');
+        li.className = 'expense-item';
+        li.dataset.id = expense.id;
+        li.innerHTML = `
+      <div class="expense-info">
+        <h3 class="expense-title"></h3>
+        <p class="expense-meta"><span class="tag"></span><span class="expense-date"></span></p>
+      </div>
+      <div class="expense-side">
+        <strong class="expense-amount"></strong>
+        <div class="expense-actions">
+          <button class="icon-btn delete-btn" aria-label="Delete expense">🗑️</button>
+        </div>
+      </div>`;
+
+        // textContent (not innerHTML) keeps user text safe from HTML injection
+        li.querySelector('.expense-title').textContent = expense.title;
+        li.querySelector('.tag').textContent = expense.category;
+        li.querySelector('.expense-date').textContent = formatDate(expense.date);
+        li.querySelector('.expense-amount').textContent = formatAmount(expense.amount);
+
+        expenseList.appendChild(li);
+    });
+}
+
+function updateUI() {
+    renderExpenses();
+}
+
+function deleteExpense(id) {
+    if (!confirm('Are you sure you want to delete this expense?')) return;
+    expenses = expenses.filter(item => item.id !== id);
+    saveExpenses();
+    updateUI();
+    showToast('Expense deleted.');
+    resetForm();
+}
+
+
+expenseList.addEventListener('click', (e) => {
+    const deleteBtn = e.target.closest('.delete-btn');
+    if (!deleteBtn) return;
+    deleteExpense(Number(deleteBtn.closest('.expense-item').dataset.id));
+});
 document.getElementById('year').textContent = new Date().getFullYear();

@@ -215,3 +215,85 @@ app-header {
 .toast.error {
     background: var(--danger);
 }
+
+.expense-list {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+    background: #fff;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.expense-item:hover {
+    background: var(--bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+}
+
+.expense-title {
+    font-weight: 600;
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.2rem;
+    font-size: 1rem;
+
+    color: var(--text);
+}
+
+.tag {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.expense-side {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.expense-amount {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.expense-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 6px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.icon-btn:hover {
+    background: var(--bg);
+    transform: translateY(-2px);
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}
