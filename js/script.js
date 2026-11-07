@@ -159,9 +159,7 @@ form.addEventListener('submit', (e) => {
     resetForm();
 });
 
-dateInput.value = todayString();
-dateInput.max = todayString();
-updateUI();
+
 // ===== Expense list =====
 const expenseList = document.getElementById('expenseList');
 const emptyState = document.getElementById('emptyState');
@@ -305,5 +303,7 @@ cancelBtn.addEventListener('click', () => {
 
 
 
-// Additional summary calculations can be added here
+dateInput.value = todayString();
+dateInput.max = todayString();
+updateUI();
 document.getElementById('year').textContent = new Date().getFullYear();
