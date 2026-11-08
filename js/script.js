@@ -167,8 +167,30 @@ const expenseList = document.getElementById('expenseList');
 const emptyState = document.getElementById('emptyState');
 
 function getVisibleExpenses() {
+    const search = searchInput.value.trim().toLowerCase();
+    const category = filterCategory.value;
 
-    return [...expenses].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+    const result = expenses.filter(item => {
+        const matchesSearch = item.title.toLowerCase().includes(search);
+        const matchesCategory = category === 'all' || item.category === category;
+        return matchesSearch && matchesCategory;
+    });
+
+    switch (sortBy.value) {
+        case 'oldest':
+            result.sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id);
+            break;
+        case 'highest':
+            result.sort((a, b) => b.amount - a.amount);
+            break;
+        case 'lowest':
+            result.sort((a, b) => a.amount - b.amount);
+            break;
+        default:
+            result.sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+    }
+
+    return result;
 }
 
 function renderExpenses() {
@@ -304,6 +326,13 @@ cancelBtn.addEventListener('click', () => {
 });
 
 
+const searchInput = document.getElementById('searchInput');
+const filterCategory = document.getElementById('filterCategory');
+const sortBy = document.getElementById('sortBy');
 
-// Additional summary calculations can be added here
+searchInput.addEventListener('input', renderExpenses);
+filterCategory.addEventListener('change', renderExpenses);
+sortBy.addEventListener('change', renderExpenses);
+
+
 document.getElementById('year').textContent = new Date().getFullYear();
