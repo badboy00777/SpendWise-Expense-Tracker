@@ -358,3 +358,55 @@ toolbar select {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
+
+/* ===== Accessibility ===== */
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .app-header {
+        padding: 1.8rem 0;
+    }
+
+    .app-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .app-layout {
+        gap: 1rem;
+        padding-top: 1.2rem;
+    }
+
+    .panel {
+        padding: 1.1rem;
+    }
+
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .expense-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .expense-side {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .toast {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        text-align: center;
+    }
+}
