@@ -159,9 +159,7 @@ form.addEventListener('submit', (e) => {
     resetForm();
 });
 
-dateInput.value = todayString();
-dateInput.max = todayString();
-updateUI();
+
 // ===== Expense list =====
 const expenseList = document.getElementById('expenseList');
 const emptyState = document.getElementById('emptyState');
@@ -171,7 +169,8 @@ function getVisibleExpenses() {
     const category = filterCategory.value;
 
     const result = expenses.filter(item => {
-        const matchesSearch = item.title.toLowerCase().includes(search);
+        const matchesSearch = item.title.toLowerCase().includes(search)
+            || item.category.toLowerCase().includes(search);
         const matchesCategory = category === 'all' || item.category === category;
         return matchesSearch && matchesCategory;
     });
@@ -335,4 +334,7 @@ filterCategory.addEventListener('change', renderExpenses);
 sortBy.addEventListener('change', renderExpenses);
 
 
+dateInput.value = todayString();
+dateInput.max = todayString();
+updateUI();
 document.getElementById('year').textContent = new Date().getFullYear();

@@ -72,7 +72,7 @@ body {
     color: var(--primary);
 }
 
-app-header {
+.app-header {
     background: var(--dark);
     color: #fff;
     padding: 1rem 0;
@@ -103,7 +103,7 @@ app-header {
     align-items: start;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    padding: 0 1.5rem;
+
 }
 
 .panel {
@@ -335,7 +335,7 @@ app-header {
 
 .toolbar {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     justify-content: space-between;
     gap: 0.7rem;
     align-items: center;
@@ -343,7 +343,7 @@ app-header {
 }
 
 .toolbar input,
-toolbar select {
+.toolbar select {
     padding: 0.6rem 0.9rem;
     border: 1px solid var(--border);
     border-radius: 8px;
