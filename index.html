@@ -12,7 +12,7 @@
 <body>
     <header class="app-header">
         <div class="container">
-            <h1>SpendSp<span>wise</span></h1>
+            <h1>Spend<span>wise</span></h1>
             <p>Track your daily expenses with ease and see where your money goes.</p>
         </div>
     </header>
@@ -64,22 +64,22 @@
                 </div>
             </form>
         </section>
-        <section>
+        <section class="panel" id="listPanel">
             <h2>Your Expenses</h2>
             <div>
                 <input type="search" id="searchInput" placeholder="Search by title or category..." class="search-input">
                 <select id="filterCategory">
-                    <option value="all">All categories</option>
-                    <option value="food">Food</option>
-                    <option value="transport">Transport</option>
-                    <option value="shopping">Shopping</option>
-                    <option value="bills">Bills</option>
-                    <option value="health">Health</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="education">Education</option>
-                    <option value="other">Other</option>
+                    <option value="All">All categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Health">Health</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Education">Education</option>
+                    <option value="Other">Other</option>
                 </select>
-                <select id="sortby">
+                <select id="sortBy">
                     <option value="newest">Newest first</option>
                     <option value="oldest">Oldest first</option>
                     <option value="highest">Highest amount</option>
@@ -93,7 +93,7 @@
     </main>
     <footer class="app-footer">
         <div class="container">
-            <p>&copy; 2024 SpendWise. All rights reserved.</p>
+            <p>&copy; <span id="year"></span> SpendWise. All rights reserved.</p>
         </div>
     </footer>
     <div class="toast" id="toast" role="status"></div>
